@@ -1,11 +1,9 @@
 package com.wsg.sbdesgin;
 
 
-import android.support.v4.view.PagerAdapter;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,28 +11,19 @@ import java.util.List;
 /**
  * Created by Shinichi Nishimura on 2015/07/24.
  */
-public class DemoImitationLoopPagerAdapter extends PagerAdapter {
+public class DemoImitationLoopPagerAdapter extends FragmentPagerAdapter {
 
     private static final int NUMBER_OF_LOOPS = 10000;
     private ArrayList<Integer> mIcons = new ArrayList<>();
     private List<String> mItems = new ArrayList<>();
 
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        View view = LayoutInflater.from(container.getContext())
-                .inflate(R.layout.layout_page, container, false);
-
-        TextView textView = (TextView) view.findViewById(R.id.title);
-        textView.setText("Page: " + getValueAt(position));
-        container.addView(view);
-
-        return view;
+    public DemoImitationLoopPagerAdapter(FragmentManager fm) {
+        super(fm);
     }
 
-
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((View) object);
+    public Fragment getItem(int position) {
+        return getFragmentAt(position);
     }
 
     @Override
@@ -42,19 +31,7 @@ public class DemoImitationLoopPagerAdapter extends PagerAdapter {
         return mItems.size() * NUMBER_OF_LOOPS;
     }
 
-    @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return view == object;
-    }
-
-    @Override
-    public String getPageTitle(int position) {
-        return getValueAt(position);
-    }
-
-
-
-    public void addAll(List<String> items) {
+    public void addAllTitle(List<String> items) {
         mItems = new ArrayList<>(items);
     }
 
@@ -78,5 +55,30 @@ public class DemoImitationLoopPagerAdapter extends PagerAdapter {
             return null;
         }
         return mItems.get(position % mItems.size());
+    }
+
+    public Fragment getFragmentAt(int position) {
+        Fragment fragment = null;
+        switch (position % mItems.size()) {
+            case 0:
+                fragment = new TestFragment();
+                break;
+            case 1:
+                fragment = new TestFragment1();
+                break;
+            case 2:
+                fragment = new TestFragment2();
+                break;
+            case 3:
+                fragment = new TestFragment3();
+                break;
+            case 4:
+                fragment = new TestFragment4();
+                break;
+            default:
+                return null;
+        }
+        return fragment;
+
     }
 }

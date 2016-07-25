@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private ArrayList<String> mItems;
     private ArrayList<Integer> mIcons;
 
-    List<Fragment> fragmentList = new ArrayList<>();
+    List<Fragment> fragmentList = new ArrayList<Fragment>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +41,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         mIcons.add(R.drawable.tab4);
         mIcons.add(R.drawable.tab5);
 
-        fragmentList.add(new TestFragment());
-        fragmentList.add(new TestFragment1());
-        fragmentList.add(new TestFragment2());
-        fragmentList.add(new TestFragment3());
-        fragmentList.add(new TestFragment4());
 
-        mAdapter = new DemoImitationLoopPagerAdapter();
-        mAdapter.addAll(mItems);
+        mAdapter = new DemoImitationLoopPagerAdapter(getSupportFragmentManager());
+        mAdapter.addAllTitle(mItems);
         mAdapter.addAllIcon(mIcons);
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mViewPager.setOffscreenPageLimit(5);
